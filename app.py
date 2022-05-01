@@ -1,6 +1,5 @@
 import os
 import requests
-import json
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -18,7 +17,6 @@ AGE = os.getenv('AGE')
 exercise_text = input('Which exercised you did today: ')
 
 exercise_headers = {
-    "Authorization": f'Bearer {TOKEN}',
     'x-app-id': API_ID,
     'x-app-key': API_KEY,
 }
@@ -51,9 +49,11 @@ for exercise in exercise_data['exercises']:
             'calories': exercise['nf_calories']
         }
     }
+    
+headers = {"Authorization": f"Bearer {TOKEN}"}
 
 
 sheet_response = requests.post(
-    url=SHEETY_ENDPOINT, json=sheet_input)
+    url=SHEETY_ENDPOINT, json=sheet_input, headers=headers)
 sheet_data = sheet_response.json()
 print(sheet_response)
